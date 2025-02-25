@@ -71,6 +71,9 @@ func loadTodosFromFile() {
 	for scanner.Scan() {
 		line := scanner.Text()
 		part := strings.Split(line, ",")
+		if len(part) < 2 {
+			continue
+		}
 		id, _ := strconv.Atoi(part[0])
 		name := part[1]
 		todo := todo{
@@ -90,7 +93,7 @@ func saveTodosToFile() {
 	defer file.Close()
 
 	for _, todo := range todos {
-		_, _ = file.WriteString(fmt.Sprintf("%d,%s\n", todo.Id, todo.Name))
+		_, _ = file.WriteString(fmt.Sprintf("%d,%s", todo.Id, todo.Name))
 	}
 }
 
@@ -120,22 +123,23 @@ func deleteTodo() {
 	fmt.Println("Insert todo id to delete")
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
-
+	input = strings.TrimSpace(input)
 	id, _ := strconv.Atoi(input)
 
-	if _, err := findTodoById(id); err != nil {
-		fmt.Println("Todo not deleted: Todo not found")
+	index, err := findIndexTodoById(id)
+	if err != nil {
+		fmt.Println("Todo not deleted:", err)
 		return
 	}
 
-	todos = append(todos[:id], todos[id+1:]...)
+	todos = append(todos[:index], todos[index+1:]...)
 }
 
-func findTodoById(id int) (todo, error) {
-	for _, todo := range todos {
+func findIndexTodoById(id int) (int, error) {
+	for index, todo := range todos {
 		if todo.Id == id {
-			return todo, nil
+			return index, nil
 		}
 	}
-	return todo{}, fmt.Errorf("task not found")
+	return 0, fmt.Errorf("task not found")
 }
