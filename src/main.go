@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/miguelfuentesgo/practices/modules/to_do_list_file"
+	"github.com/miguelfuentesgo/practices/modules/scraper"
 )
 
 func main() {
@@ -33,5 +33,9 @@ func main() {
 	// password_generator.Run()
 
 	//Using module to_do_list_file
-	to_do_list_file.Run()
+	// to_do_list_file.Run()
+
+	// Using module scraper
+
+	scraper.Run()
 }
