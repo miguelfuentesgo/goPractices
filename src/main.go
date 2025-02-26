@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/miguelfuentesgo/practices/modules/scraper"
+	http_server "github.com/miguelfuentesgo/practices/modules/http"
 )
 
 func main() {
@@ -37,5 +37,9 @@ func main() {
 
 	// Using module scraper
 
-	scraper.Run()
+	//scraper.Run()
+
+	//Using module http_server
+
+	http_server.Run()
 }
